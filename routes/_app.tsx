@@ -8,7 +8,7 @@ export default function App({ Component }: PageProps) {
         <title>sample-web-chat</title>
         <link rel="stylesheet" href="/styles.css" />
       </head>
-      <body>
+      <body class="text-black">
         <Component />
       </body>
     </html>

@@ -1,25 +1,37 @@
-import { useSignal } from "@preact/signals";
-import Counter from "../islands/Counter.tsx";
+import { PageProps } from "$fresh/server.ts";
 
-export default function Home() {
-  const count = useSignal(3);
-  return (
-    <div class="px-4 py-8 mx-auto bg-[#86efac]">
-      <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
-        <img
-          class="my-6"
-          src="/logo.svg"
-          width="128"
-          height="128"
-          alt="the Fresh logo: a sliced lemon dripping with juice"
-        />
-        <h1 class="text-4xl font-bold">Welcome to Fresh</h1>
-        <p class="my-4">
-          Try updating this message in the
-          <code class="mx-2">./routes/index.tsx</code> file, and refresh.
-        </p>
-        <Counter count={count} />
-      </div>
+const CURRENT_USER = 'Harry';
+
+interface Message {
+    user: string,
+    content: string
+}
+
+export default function Homepage(props: PageProps) {
+
+    const messages: Message[] = [
+        { user: 'Tom', content: 'Hello world' },
+        { user: CURRENT_USER, content: 'Hi! How are you?' },
+        { user: 'Tom', content: 'Fine, thanks. And you?' },
+        { user: CURRENT_USER, content: 'I\'m fine too.' }
+    ]
+
+return (
+    <div>
+        <ul>
+            {messages.map((message => (
+                <li>
+                    <p>
+                        <b>{ message.user }: </b>
+                        <span>{ message.content }</span>
+                    </p>
+                </li>
+            )))}
+        </ul>
+        <div class="flex gap-1">
+            <textarea class="border"></textarea>
+            <button class="bg-sky-200 rounded p-1 hover:bg-sky-300 transition-colors">Submit</button>
+        </div>
     </div>
-  );
+)
 }
