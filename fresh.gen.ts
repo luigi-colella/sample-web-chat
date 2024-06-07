@@ -5,10 +5,12 @@
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $api_joke from "./routes/api/joke.ts";
+import * as $api_start_web_chat from "./routes/api/start-web-chat.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $test from "./routes/test.tsx";
 import * as $Counter from "./islands/Counter.tsx";
+import * as $chat from "./islands/chat.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -16,12 +18,14 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
     "./routes/api/joke.ts": $api_joke,
+    "./routes/api/start-web-chat.ts": $api_start_web_chat,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/test.tsx": $test,
   },
   islands: {
     "./islands/Counter.tsx": $Counter,
+    "./islands/chat.tsx": $chat,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
