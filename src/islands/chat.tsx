@@ -2,6 +2,7 @@ import { IS_BROWSER } from "$fresh/src/runtime/utils.ts";
 import { useCallback, useEffect, useState } from "preact/hooks";
 import ChatMessage from "../models/chat-message.ts";
 import ChatHandler from "../services/frontend/chat-handler.ts";
+import CONSTANTS from "../constants.ts";
 
 export default function Chat() {
 
@@ -14,6 +15,7 @@ export default function Chat() {
     useEffect(() => {
         const clientUsername = prompt("Please enter your username") || "Anonymous";
         const chatHandlerObject = new ChatHandler({
+            webSocketURL: CONSTANTS.URLS.START_WEB_CHAT,
             username: clientUsername,
             onNewMessage: (message) => {
                 setChatMessages((messages) => [...messages, message]);

@@ -1,6 +1,7 @@
 import ChatMessage from "../../models/chat-message.ts";
 
 interface ChatHandlerParams {
+    webSocketURL: string
     username: string
     onNewMessage: (message: ChatMessage) => void
     onNewUser: (usernames: string[]) => void
@@ -10,8 +11,7 @@ export default class ChatHandler {
     private webSocket: WebSocket
 
     constructor(params: ChatHandlerParams) {
-        const webSocketURL = "ws://localhost:8000/api/start-web-chat"
-        this.webSocket = new WebSocket(`${webSocketURL}?username=${params.username}`);
+        this.webSocket = new WebSocket(`${params.webSocketURL}?username=${params.username}`);
         this.webSocket.addEventListener('message', (messageEvent) => {
             const messageData = JSON.parse(messageEvent.data);
             if (messageData.event === 'send-message') {
