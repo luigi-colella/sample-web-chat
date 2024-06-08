@@ -18,13 +18,13 @@ export default function Chat(props: ComponentProps) {
 
     const [currentMessage, setCurrentMessage] = useState<string>('');
     const [messages, setMessages] = useState<Message[]>([]);
-
-    function addMessage(username: string, message: string) {
-        setMessages([...messages, { username, message }]);
+    
+    const addMessage = (message: Message) => {
+        setMessages((messages) => [...messages, message]);
     }
 
     function sendCurrentMessage() {
-        return socket.send(
+        socket.send(
             JSON.stringify({
                 event: "send-message",
                 message: currentMessage,
@@ -47,7 +47,7 @@ export default function Chat(props: ComponentProps) {
 
             case "send-message":
             // display new chat message
-            addMessage(data.username, data.message);
+            addMessage({ username: data.username, message: data.message });
             break;
         }
     }}, []);
