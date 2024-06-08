@@ -5,7 +5,7 @@ export default function Homepage(props: PageProps) {
 
 return (
     <div>
-        <Chat webSocketURL="ws://localhost:8000/api/start-web-chat" />
+        <Chat />
     </div>
 )
 }

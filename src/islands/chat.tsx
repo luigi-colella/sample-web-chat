@@ -1,65 +1,48 @@
 import { IS_BROWSER } from "$fresh/src/runtime/utils.ts";
-import { useEffect, useState } from "preact/hooks";
+import { useCallback, useEffect, useState } from "preact/hooks";
+import ChatMessage from "../models/chat-message.ts";
+import ChatHandler from "../services/frontend/chat-handler.ts";
 
-interface ComponentProps {
-    webSocketURL: string
-}
+export default function Chat() {
 
-interface Message {
-    username: string,
-    message: string
-}
-
-let socket: WebSocket;
-
-export default function Chat(props: ComponentProps) {
-
-    if (!IS_BROWSER) return <>This component not render on server side</>
+    if (!IS_BROWSER) return <>This component is not meant to render on server side</>
 
     const [currentMessage, setCurrentMessage] = useState<string>('');
-    const [messages, setMessages] = useState<Message[]>([]);
-    
-    const addMessage = (message: Message) => {
-        setMessages((messages) => [...messages, message]);
-    }
-
-    function sendCurrentMessage() {
-        socket.send(
-            JSON.stringify({
-                event: "send-message",
-                message: currentMessage,
-            })
-        );
-    }
+    const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+    const [chatHandler, setChatHandler] = useState<ChatHandler>();
 
     useEffect(() => {
-        const myUsername = prompt("Please enter your name") || "Anonymous";
-        socket = new WebSocket(`${props.webSocketURL}?username=${myUsername}`);
-
-        socket.onmessage = (m) => {
-        const data = JSON.parse(m.data);
-
-        switch (data.event) {
-            case "update-users":
+        const clientUsername = prompt("Please enter your username") || "Anonymous";
+        const chatHandlerObject = new ChatHandler({
+            username: clientUsername,
+            onNewMessage: (message) => {
+                setChatMessages((messages) => [...messages, message]);
+            },
+            onNewUser: (usernames) => {
                 alert(`New user connected! See logs for more details.`);
-                console.log(`List of users has been updated. Here the current one: ${data.usernames.join(', ')}`);
-                break;
+                console.log(`List of users has been updated. Here the current one: ${usernames.join(', ')}`);
+            }
+        });
 
-            case "send-message":
-            // display new chat message
-            addMessage({ username: data.username, message: data.message });
-            break;
+        setChatHandler(chatHandlerObject);
+    }, [])
+
+    const sendCurrentMessage = useCallback(() => {
+        if (chatHandler) {
+            chatHandler.sendMessage(currentMessage);
+        } else {
+            throw new Error('No chat handler.');
         }
-    }}, []);
+    }, [currentMessage])
 
 return (
     <div>
         <ul>
-            {messages.map((message => (
+            {chatMessages.map((chatMessage => (
                 <li>
                     <p>
-                        <b>{ message.username }: </b>
-                        <span>{ message.message }</span>
+                        <b>{ chatMessage.username }: </b>
+                        <span>{ chatMessage.content }</span>
                     </p>
                 </li>
             )))}
