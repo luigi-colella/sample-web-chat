@@ -32,6 +32,7 @@ export default function Chat() {
     const sendCurrentMessage = useCallback(() => {
         if (chatHandler) {
             chatHandler.sendMessage(currentMessage);
+            setCurrentMessage('');
         } else {
             throw new Error('No chat handler.');
         }
