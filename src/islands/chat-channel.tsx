@@ -1,4 +1,3 @@
-import { FunctionComponent } from "preact";
 import { useState } from "preact/hooks";
 import { defineClientOnlyComponent } from "../helpers/components.tsx";
 import ChatMessage from "../models/chat-message.ts";
@@ -9,7 +8,7 @@ interface ChatChannelProps {
     username: string
 }
 
-const ChatChannel: FunctionComponent<ChatChannelProps> = defineClientOnlyComponent((props) => {
+const ChatChannel = defineClientOnlyComponent<ChatChannelProps>((props) => {
 
     const [currentMessage, setCurrentMessage] = useState<string>('');
     const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);

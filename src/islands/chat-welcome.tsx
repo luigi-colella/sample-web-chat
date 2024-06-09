@@ -1,4 +1,3 @@
-import { FunctionComponent } from "preact";
 import { useId, useState } from "preact/hooks";
 import { defineClientOnlyComponent } from "../helpers/components.tsx";
 import Button from "./buttons.tsx";
@@ -7,7 +6,7 @@ interface ChatWelcomeProps {
     onUsernameSubmit: (username: string) => void
 }
 
-const ChatWelcome: FunctionComponent<ChatWelcomeProps> = defineClientOnlyComponent((props) => {
+const ChatWelcome = defineClientOnlyComponent<ChatWelcomeProps>((props) => {
     const inputId = useId();
     const [username, setUsername] = useState<string>();
 
