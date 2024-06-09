@@ -14,7 +14,7 @@ const ChatWelcome: FunctionComponent<ChatWelcomeProps> = defineClientOnlyCompone
     return (
         <div>
             <label for={inputId}>Choose an username</label>
-            <input id={inputId} type="text" onChange={(event) => setUsername(event.currentTarget.value)}></input>
+            <input class="border" id={inputId} type="text" onChange={(event) => setUsername(event.currentTarget.value)}></input>
             <Button onClick={() => username && props.onUsernameSubmit(username)}>Submit</Button>
         </div>
     )
