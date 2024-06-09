@@ -1,6 +1,6 @@
 import { useId, useState } from "preact/hooks";
 import { defineClientOnlyComponent } from "../helpers/components.tsx";
-import Button from "./buttons.tsx";
+import Button from "./button.tsx";
 
 interface ChatWelcomeProps {
     onUsernameSubmit: (username: string) => void

@@ -2,7 +2,7 @@ import { useState } from "preact/hooks";
 import { defineClientOnlyComponent } from "../helpers/components.tsx";
 import ChatMessage from "../models/chat-message.ts";
 import ChatHandler from "../services/frontend/chat-handler.ts";
-import Button from "./buttons.tsx";
+import Button from "./button.tsx";
 
 interface ChatChannelProps {
     username: string
