@@ -3,6 +3,7 @@ import { defineClientOnlyComponent } from "../helpers/components.tsx";
 import ChatMessage from "../models/chat-message.ts";
 import ChatHandler from "../services/frontend/chat-handler.ts";
 import Button from "./button.tsx";
+import ChatUserList from "../components/chat-user-list.tsx";
 
 interface ChatChannelProps {
     username: string
@@ -10,6 +11,7 @@ interface ChatChannelProps {
 
 const ChatChannel = defineClientOnlyComponent<ChatChannelProps>((props) => {
 
+    const [usernames, setUsernames] = useState<string[]>([]);
     const [currentMessage, setCurrentMessage] = useState<string>('');
     const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
     const [chatHandler] = useState<ChatHandler>(() => {
@@ -18,15 +20,13 @@ const ChatChannel = defineClientOnlyComponent<ChatChannelProps>((props) => {
             onNewMessage: (message) => {
                 setChatMessages((messages) => [...messages, message]);
             },
-            onNewUser: (usernames) => {
-                alert(`New user connected! See logs for more details.`);
-                console.log(`List of users has been updated. Here the current one: ${usernames.join(', ')}`);
-            }
+            onNewUser: setUsernames
         });
     });
 
     return (
         <div>
+            <ChatUserList usernames={usernames} />
             <ul>
                 {chatMessages.map((chatMessage => (
                     <li>
