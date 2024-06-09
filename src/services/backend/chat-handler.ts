@@ -1,4 +1,4 @@
-const connectedClients = new Map();
+const connectedClients = new Map<string, WebSocket>();
 
 export default class ChatHandler {
   constructor(webSocket: WebSocket, username: string) {
